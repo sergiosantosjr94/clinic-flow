@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,12 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 
-const RegisterTab = () => {
+const RegisterForm = () => {
   return (
-    <TabsContent value="password">
+    <TabsContent value="register">
       <Card>
         <CardHeader>
-          <CardTitle>Password</CardTitle>
+          <CardTitle>Register</CardTitle>
           <CardDescription>
             Change your password here. After saving, you&apos;ll be logged out.
           </CardDescription>
@@ -39,4 +40,4 @@ const RegisterTab = () => {
   );
 };
 
-export default RegisterTab;
+export default RegisterForm;

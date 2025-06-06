@@ -1,4 +1,5 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,18 +24,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 
-const LoginTab = () => {
+const LoginForm = () => {
   const loginSchema = z.object({
-    username: z.string().email(),
-    password: z.string(),
+    username: z
+      .string({ message: "Email is required." })
+      .email({ message: "Email is invalid." })
+      .trim(),
+    password: z
+      .string({ message: "Password is required." })
+      .trim()
+      .min(8, { message: "Password must contain 8 caracteres." }),
   });
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
   });
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
@@ -60,7 +63,7 @@ const LoginTab = () => {
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input type="text" placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -91,4 +94,4 @@ const LoginTab = () => {
   );
 };
 
-export default LoginTab;
+export default LoginForm;

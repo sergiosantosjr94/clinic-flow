@@ -2,8 +2,8 @@ import Image from "next/image";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import LoginTab from "./components/LoginTab";
-import RegisterTab from "./components/RegisterTab";
+import LoginForm from "./components/login-form";
+import RegisterForm from "./components/register-form";
 
 const AuthenticationPage = () => {
   return (
@@ -20,10 +20,10 @@ const AuthenticationPage = () => {
         <Tabs defaultValue="login">
           <TabsList className="w-full">
             <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
+            <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
-          <LoginTab />
-          <RegisterTab />
+          <LoginForm />
+          <RegisterForm />
         </Tabs>
       </div>
     </div>
