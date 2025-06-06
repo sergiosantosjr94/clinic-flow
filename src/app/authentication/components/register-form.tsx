@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { redirect } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,8 +29,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import { authClient } from "@/lib/auth-client";
 
 const RegisterForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const RegisterSchema = z
     .object({
       name: z.string({ message: "Name is required" }).min(3).trim(),
@@ -58,7 +55,6 @@ const RegisterForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
-    setIsLoading(true);
     await authClient.signUp.email(
       {
         name: values.name,
@@ -67,7 +63,6 @@ const RegisterForm = () => {
       },
       {
         onSuccess: () => {
-          setIsLoading(false);
           toast.success("User succesfully created.");
           redirect("/dashboard");
         },
@@ -142,8 +137,16 @@ const RegisterForm = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? <LoaderCircle className="animate-spin" /> : ""}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  ""
+                )}
                 SignUp
               </Button>
             </form>

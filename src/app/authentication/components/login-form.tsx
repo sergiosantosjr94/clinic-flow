@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -29,8 +29,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import { authClient } from "@/lib/auth-client";
 
 const LoginForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const loginSchema = z.object({
     email: z
       .string({ message: "Email is required." })
@@ -47,7 +45,6 @@ const LoginForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    setIsLoading(true);
     await authClient.signIn.email(
       {
         email: values.email,
@@ -55,12 +52,10 @@ const LoginForm = () => {
       },
       {
         onSuccess: () => {
-          setIsLoading(false);
-          toast.success("Sucesss");
+          redirect("/dashboard");
         },
         onError: () => {
           toast.error("Email or password is wrong.");
-          setIsLoading(false);
         },
       },
     );
@@ -105,9 +100,17 @@ const LoginForm = () => {
                 )}
               />
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? <LoaderCircle className="animate-spin" /> : ""}
-                SignUp
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  ""
+                )}
+                Login
               </Button>
             </form>
           </Form>
