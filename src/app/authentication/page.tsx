@@ -1,11 +1,20 @@
+import { headers } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { auth } from "@/lib/auth";
 
 import LoginForm from "./components/login-form";
 import RegisterForm from "./components/register-form";
 
-const AuthenticationPage = () => {
+const AuthenticationPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (session?.user) {
+    redirect("/dashboard");
+  }
   return (
     <div className="m-4 flex h-screen w-screen items-center justify-center">
       <div className="m-4 flex w-full max-w-sm flex-col gap-6">
