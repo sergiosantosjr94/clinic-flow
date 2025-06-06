@@ -66,8 +66,8 @@ const RegisterForm = () => {
           toast.success("User succesfully created.");
           redirect("/dashboard");
         },
-        onError: () => {
-          toast.error("Error creating user.");
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
         },
       },
     );
