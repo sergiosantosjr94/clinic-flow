@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 
+import { Toaster } from "@/components/ui/sonner";
+
 const manrope = Manrope({
   variable: "--font-manrope-sans",
   subsets: ["latin"],
@@ -23,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${manrope.variable} ${manrope.variable} antialiased`}>
         {children}
+        <Toaster richColors closeButton />
       </body>
     </html>
   );

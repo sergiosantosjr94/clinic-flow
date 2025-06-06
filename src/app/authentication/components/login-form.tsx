@@ -1,7 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -23,10 +26,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
+import { authClient } from "@/lib/auth-client";
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const loginSchema = z.object({
-    username: z
+    email: z
       .string({ message: "Email is required." })
       .email({ message: "Email is invalid." })
       .trim(),
@@ -40,14 +46,30 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    setIsLoading(true);
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onSuccess: () => {
+          setIsLoading(false);
+          toast.success("Sucesss");
+        },
+        onError: () => {
+          toast.error("Email or password is wrong.");
+          setIsLoading(false);
+        },
+      },
+    );
   }
 
   return (
     <TabsContent value="login">
       <Card>
-        <CardHeader>
+        <CardHeader className="gap-2">
           <CardTitle>Login</CardTitle>
           <CardDescription>
             Welcome Back! We&apos;re excited to have you here.
@@ -58,10 +80,10 @@ const LoginForm = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input type="text" placeholder="" {...field} />
                     </FormControl>
@@ -82,8 +104,10 @@ const LoginForm = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                Login
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? <LoaderCircle className="animate-spin" /> : ""}
+                SignUp
               </Button>
             </form>
           </Form>

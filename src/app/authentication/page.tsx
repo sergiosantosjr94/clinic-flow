@@ -7,8 +7,8 @@ import RegisterForm from "./components/register-form";
 
 const AuthenticationPage = () => {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-[#f4f4f5]">
-      <div className="flex w-full max-w-sm flex-col gap-6">
+    <div className="m-4 flex h-screen w-screen items-center justify-center">
+      <div className="m-4 flex w-full max-w-sm flex-col gap-6">
         <Image
           className="self-center"
           src="/clinicflow-blue-black.webp"
