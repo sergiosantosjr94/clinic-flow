@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CalendarDays,
   LayoutDashboard,
@@ -5,8 +7,8 @@ import {
   Stethoscope,
   Users,
 } from "lucide-react";
-import { headers } from "next/headers";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -21,7 +23,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
+import { authClient } from "@/lib/auth-client";
 
 import { NavUser } from "./nav-user";
 
@@ -54,14 +56,9 @@ const items = [
   },
 ];
 
-export async function AppSidebar() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  const user = session?.user;
-  if (!user) {
-    throw new Error("User not found");
-  }
+export function AppSidebar() {
+  const session = authClient.useSession();
+  const pathname = usePathname();
 
   return (
     <Sidebar>
@@ -80,7 +77,7 @@ export async function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={false}>
+                  <SidebarMenuButton asChild isActive={item.url === pathname}>
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -93,7 +90,7 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={session.user} />
+        {session?.data?.user && <NavUser user={session?.data?.user} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
