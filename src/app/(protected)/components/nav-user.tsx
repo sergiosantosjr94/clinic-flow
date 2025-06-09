@@ -28,15 +28,23 @@ import {
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
 
-export function NavUser({
-  user,
-}: {
+interface IUserSession {
   user: {
+    clinic: {
+      id: string;
+      name: string;
+    };
+    id: string;
     name: string;
     email: string;
-    avatar?: string;
+    emailVerified: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    image?: string | null | undefined;
   };
-}) {
+}
+
+export function NavUser({ user }: IUserSession) {
   const { isMobile } = useSidebar();
   const router = useRouter();
 
@@ -50,10 +58,13 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage
+                  src={user.image || undefined}
+                  alt={user.clinic.name}
+                />
                 <AvatarFallback className="rounded-lg">
                   {" "}
-                  {user.name
+                  {user.clinic.name
                     .trim()
                     .split(/\s+/) // split by one or more spaces
                     .slice(0, 2) // only take the first two words
@@ -62,7 +73,7 @@ export function NavUser({
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{user.clinic.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -77,10 +88,13 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage
+                    src={user.image || undefined}
+                    alt={user.clinic.name}
+                  />
                   <AvatarFallback className="rounded-lg">
                     {" "}
-                    {user.name
+                    {user.clinic.name
                       .trim()
                       .split(/\s+/) // split by one or more spaces
                       .slice(0, 2) // only take the first two words
@@ -89,7 +103,9 @@ export function NavUser({
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">
+                    {user.clinic.name}
+                  </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>

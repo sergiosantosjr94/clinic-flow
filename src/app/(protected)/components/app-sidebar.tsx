@@ -62,13 +62,6 @@ export async function AppSidebar() {
   if (!user) {
     throw new Error("User not found");
   }
-  const data = {
-    user: {
-      name: user.name,
-      email: user.email,
-      avatar: user.image || undefined,
-    },
-  };
 
   return (
     <Sidebar>
@@ -100,7 +93,7 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={session.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
