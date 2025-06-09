@@ -16,8 +16,8 @@ const AuthenticationPage = async () => {
     redirect("/dashboard");
   }
   return (
-    <div className="m-4 flex min-h-screen w-screen content-center items-center justify-center overflow-y-auto">
-      <div className="m-4 flex w-full max-w-sm flex-col gap-6">
+    <div className="m-4 flex min-h-screen w-screen items-center justify-center overflow-y-auto">
+      <div className="flex w-full max-w-sm flex-col gap-2">
         <Image
           className="self-center"
           src="/clinicflow-blue-black.webp"

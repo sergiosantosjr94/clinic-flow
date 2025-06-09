@@ -76,9 +76,9 @@ const LoginForm = () => {
             Welcome Back! We&apos;re excited to have you here.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <CardContent className="grid gap-6">
               <FormField
                 control={form.control}
                 name="email"
@@ -105,8 +105,9 @@ const LoginForm = () => {
                   </FormItem>
                 )}
               />
-
-              <div className="flex flex-col items-center justify-center gap-4">
+            </CardContent>
+            <CardFooter>
+              <div className="flex w-full flex-col items-center justify-center gap-2">
                 <Button
                   type="submit"
                   className="w-full"
@@ -154,10 +155,9 @@ const LoginForm = () => {
                   Login with Google
                 </Button>
               </div>
-            </form>
-          </Form>
-        </CardContent>
-        <CardFooter></CardFooter>
+            </CardFooter>
+          </form>
+        </Form>
       </Card>
     </TabsContent>
   );

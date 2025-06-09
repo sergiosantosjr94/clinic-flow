@@ -1,18 +1,16 @@
-
-import LogOutButton from "@/app/authentication/components/logout-button";
-import { db } from "@/db";
-import { usersToClinicsTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { db } from "@/db";
+import { usersToClinicsTable } from "@/db/schema";
+import { auth } from "@/lib/auth";
 
 const Dashboard = async () => {
-   const session = await auth.api.getSession({
+  const session = await auth.api.getSession({
     headers: await headers(),
   });
-  
+
   const clinics = await db.query.usersToClinicsTable.findMany({
     where: eq(usersToClinicsTable.userId, session!.user.id),
   });
@@ -24,7 +22,6 @@ const Dashboard = async () => {
     <div>
       <h1>Dashboard</h1>
       <p>Welcome {session?.user.name}</p>
-      <LogOutButton />
     </div>
   );
 };
