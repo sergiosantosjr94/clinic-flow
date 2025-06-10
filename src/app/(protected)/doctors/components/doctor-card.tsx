@@ -83,11 +83,11 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
       <CardContent className="flex flex-col gap-2">
         <Badge variant="outline">
           <CalendarIcon className="mr-1" />
-          {availability.from.format("dddd")} a {availability.to.format("dddd")}
+          {availability.from.format("dddd")} to {availability.to.format("dddd")}
         </Badge>
         <Badge variant="outline">
           <ClockIcon className="mr-1" />
-          {availability.from.format("HH:mm")} as{" "}
+          {availability.from.format("HH:mm")} to{" "}
           {availability.to.format("HH:mm")}
         </Badge>
         <Badge variant="outline">
@@ -102,7 +102,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
           onOpenChange={setIsUpsertDoctorDialogOpen}
         >
           <DialogTrigger asChild>
-            <Button className="w-full">Ver detalhes</Button>
+            <Button className="w-full">Doctor Details</Button>
           </DialogTrigger>
           <UpsertDoctorForm
             doctor={{
@@ -117,23 +117,23 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
           <AlertDialogTrigger asChild>
             <Button variant="outline" className="w-full">
               <TrashIcon />
-              Deletar médico
+              Delete Doctor
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                Tem certeza que deseja deletar esse médico?
+                Are you sure you want to delete this doctor?
               </AlertDialogTitle>
               <AlertDialogDescription>
-                Essa ação não pode ser revertida. Isso irá deletar o médico e
-                todas as consultas agendadas.
+                This action cannot be undone. This will delete the doctor and
+                all scheduled appointments.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction onClick={handleDeleteDoctorClick}>
-                Deletar
+                Delete
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

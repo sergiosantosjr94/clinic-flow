@@ -35,8 +35,8 @@ const DoctorsPage = async () => {
     <PageContainer>
       <PageHeader>
         <PageHeaderContent>
-          <PageTitle>Médicos</PageTitle>
-          <PageDescription>Gerencie os médicos da sua clínica</PageDescription>
+          <PageTitle>Doctors</PageTitle>
+          <PageDescription>Manage the doctors of your clinic</PageDescription>
         </PageHeaderContent>
         <PageActions>
           <AddDoctorButton />
