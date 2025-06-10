@@ -58,11 +58,14 @@ export function NavUser({ user }: IUserSession) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.image || ""} alt={user.clinic.name} />
+                <AvatarImage
+                  src={user?.image || ""}
+                  alt={user?.clinic?.name && "Clinic"}
+                />
                 <AvatarFallback className="rounded-lg">
                   {" "}
-                  {user.clinic.name
-                    .trim()
+                  {user?.clinic?.name
+                    ?.trim()
                     .split(/\s+/) // split by one or more spaces
                     .slice(0, 2) // only take the first two words
                     .map((word) => word[0].toUpperCase()) // get first letter of each word
@@ -70,8 +73,10 @@ export function NavUser({ user }: IUserSession) {
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.clinic.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">
+                  {user?.clinic?.name}
+                </span>
+                <span className="truncate text-xs">{user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -85,11 +90,14 @@ export function NavUser({ user }: IUserSession) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.image || ""} alt={user.clinic.name} />
+                  <AvatarImage
+                    src={user?.image || ""}
+                    alt={user?.clinic?.name && "Clinic"}
+                  />
                   <AvatarFallback className="rounded-lg">
                     {" "}
-                    {user.clinic.name
-                      .trim()
+                    {user?.clinic?.name
+                      ?.trim()
                       .split(/\s+/) // split by one or more spaces
                       .slice(0, 2) // only take the first two words
                       .map((word) => word[0].toUpperCase()) // get first letter of each word
@@ -98,9 +106,9 @@ export function NavUser({ user }: IUserSession) {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {user.clinic.name}
+                    {user?.clinic?.name}
                   </span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

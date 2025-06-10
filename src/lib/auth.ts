@@ -40,7 +40,13 @@ export const auth = betterAuth({
           clinic: true,
         },
       });
-      const clinic = clinics[0];
+      const clinic = clinics?.[0];
+      if (!clinic) {
+        return {
+          user,
+          session,
+        };
+      }
       return {
         user: {
           ...user,
