@@ -23,7 +23,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
 
 import { NavUser } from "./nav-user";
 
@@ -35,8 +34,8 @@ const items = [
     icon: LayoutDashboard,
   },
   {
-    title: "Clinics",
-    url: "/clinics",
+    title: "Appointments",
+    url: "/appointments",
     icon: CalendarDays,
   },
   {
@@ -57,7 +56,6 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const session = authClient.useSession();
   const pathname = usePathname();
 
   return (
@@ -90,7 +88,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        {session?.data?.user && <NavUser user={session?.data?.user} />}
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

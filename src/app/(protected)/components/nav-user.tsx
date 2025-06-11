@@ -28,25 +28,16 @@ import {
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
 
-interface IUserSession {
-  user: {
-    clinic: {
-      id: string;
-      name: string;
-    };
-    id: string;
-    name: string;
-    email: string;
-    emailVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    image?: string | null | undefined;
-  };
-}
-
-export function NavUser({ user }: IUserSession) {
+export function NavUser() {
   const { isMobile } = useSidebar();
   const router = useRouter();
+  const session = authClient.useSession();
+
+  if (!session?.data?.user) {
+    return null;
+  }
+
+  const user = session.data.user;
 
   return (
     <SidebarMenu>
