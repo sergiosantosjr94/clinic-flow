@@ -31,13 +31,13 @@ export const getAvailableTimes = actionClient
       throw new Error("Unauthorized");
     }
     if (!session.user.clinic) {
-      throw new Error("Clínica não encontrada");
+      throw new Error("Clinic not found.");
     }
     const doctor = await db.query.doctorsTable.findFirst({
       where: eq(doctorsTable.id, parsedInput.doctorId),
     });
     if (!doctor) {
-      throw new Error("Médico não encontrado");
+      throw new Error("Doctor not found.");
     }
     const selectedDayOfWeek = dayjs(parsedInput.date).day();
     const doctorIsAvailable =
@@ -84,7 +84,7 @@ export const getAvailableTimes = actionClient
       return {
         value: time,
         available: !appointmentsOnSelectedDate.includes(time),
-        label: time.split(":")[0] + ":" + time.split(":")[1],
+        label: time.substring(0, 5),
       };
     });
   });

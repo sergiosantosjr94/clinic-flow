@@ -3,9 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import dayjs from "dayjs";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -50,19 +50,19 @@ import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   patientId: z.string().min(1, {
-    message: "Paciente é obrigatório.",
+    message: "Pacient is required.",
   }),
   doctorId: z.string().min(1, {
-    message: "Médico é obrigatório.",
+    message: "Doctor is required.",
   }),
   appointmentPrice: z.number().min(1, {
-    message: "Valor da consulta é obrigatório.",
+    message: "Amount Price is required.",
   }),
   date: z.date({
-    message: "Data é obrigatória.",
+    message: "Date is required.",
   }),
   time: z.string().min(1, {
-    message: "Horário é obrigatório.",
+    message: "Time is required.",
   }),
 });
 
@@ -134,11 +134,11 @@ const AddAppointmentForm = ({
 
   const createAppointmentAction = useAction(addAppointment, {
     onSuccess: () => {
-      toast.success("Agendamento criado com sucesso.");
+      toast.success("Appointment created successfully.");
       onSuccess?.();
     },
     onError: () => {
-      toast.error("Erro ao criar agendamento.");
+      toast.error("Error creating appointment.");
     },
   });
 
@@ -167,9 +167,9 @@ const AddAppointmentForm = ({
   return (
     <DialogContent className="sm:max-w-[500px]">
       <DialogHeader>
-        <DialogTitle>Novo agendamento</DialogTitle>
+        <DialogTitle>New appointment</DialogTitle>
         <DialogDescription>
-          Crie um novo agendamento para sua clínica.
+          Create a new appointment for your clinic.
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -186,7 +186,7 @@ const AddAppointmentForm = ({
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione um paciente" />
+                      <SelectValue placeholder="Select a pacient" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -207,14 +207,14 @@ const AddAppointmentForm = ({
             name="doctorId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Médico</FormLabel>
+                <FormLabel>Doctor</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione um médico" />
+                      <SelectValue placeholder="Select a doctor" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -235,7 +235,7 @@ const AddAppointmentForm = ({
             name="appointmentPrice"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Valor da consulta</FormLabel>
+                <FormLabel>Appointment price</FormLabel>
                 <NumericFormat
                   value={field.value}
                   onValueChange={(value) => {
@@ -243,9 +243,9 @@ const AddAppointmentForm = ({
                   }}
                   decimalScale={2}
                   fixedDecimalScale
-                  decimalSeparator=","
-                  thousandSeparator="."
-                  prefix="R$ "
+                  decimalSeparator="."
+                  thousandSeparator=","
+                  prefix="$ "
                   allowNegative={false}
                   disabled={!selectedDoctorId}
                   customInput={Input}
@@ -274,9 +274,9 @@ const AddAppointmentForm = ({
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
-                          format(field.value, "PPP", { locale: ptBR })
+                          format(field.value, "PPP", { locale: enUS })
                         ) : (
-                          <span>Selecione uma data</span>
+                          <span>Select a date</span>
                         )}
                       </Button>
                     </FormControl>
@@ -311,7 +311,7 @@ const AddAppointmentForm = ({
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione um horário" />
+                      <SelectValue placeholder="Select a time" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -321,7 +321,7 @@ const AddAppointmentForm = ({
                         value={time.value}
                         disabled={!time.available}
                       >
-                        {time.label} {!time.available && "(Indisponível)"}
+                        {time.label} {!time.available && "(Unavailable)"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -333,9 +333,14 @@ const AddAppointmentForm = ({
 
           <DialogFooter>
             <Button type="submit" disabled={createAppointmentAction.isPending}>
-              {createAppointmentAction.isPending
-                ? "Criando..."
-                : "Criar agendamento"}
+              {createAppointmentAction.isPending ? (
+                <>
+                  <Loader2 />
+                  {"Creating Appoitment"}
+                </>
+              ) : (
+                "Create appointment"
+              )}
             </Button>
           </DialogFooter>
         </form>
