@@ -32,7 +32,9 @@ export function DatePicker({
       setFrom(dateRange.from);
     }
     if (dateRange?.to) {
-      setTo(dateRange.to);
+      setTo(dateRange.to, {
+        shallow: false,
+      });
     }
   };
   const date = {
