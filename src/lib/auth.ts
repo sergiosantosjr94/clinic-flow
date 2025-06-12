@@ -13,6 +13,7 @@ export const auth = betterAuth({
     usePlural: true,
     schema,
   }),
+  trustedOrigins: [process.env.TRUSTED_ORIGINS as string],
   user: {
     modelName: "usersTable",
   },
