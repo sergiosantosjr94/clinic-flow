@@ -13,7 +13,7 @@ export const auth = betterAuth({
     usePlural: true,
     schema,
   }),
-  trustedOrigins: [process.env.TRUSTED_ORIGINS as string],
+  trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL as string],
   user: {
     modelName: "usersTable",
   },

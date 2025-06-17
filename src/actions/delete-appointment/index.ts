@@ -27,10 +27,10 @@ export const deleteAppointment = actionClient
       where: eq(appointmentsTable.id, parsedInput.id),
     });
     if (!appointment) {
-      throw new Error("Agendamento não encontrado");
+      throw new Error("Appointment not found");
     }
     if (appointment.clinicId !== session.user.clinic?.id) {
-      throw new Error("Agendamento não encontrado");
+      throw new Error("Appointment not found");
     }
     await db
       .delete(appointmentsTable)

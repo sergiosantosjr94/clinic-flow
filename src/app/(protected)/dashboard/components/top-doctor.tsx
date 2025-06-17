@@ -47,7 +47,7 @@ export default function TopDoctors({ doctors }: TopDoctorsProps) {
               </div>
               <div className="text-right">
                 <span className="text-muted-foreground text-sm font-medium">
-                  {doctor.appointments} agend.
+                  {doctor.appointments} Appoint.
                 </span>
               </div>
             </div>

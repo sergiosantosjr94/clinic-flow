@@ -79,7 +79,7 @@ export default function TopSpecialties({
                     <h3 className="text-sm">{specialty.specialty}</h3>
                     <div className="text-right">
                       <span className="text-muted-foreground text-sm font-medium">
-                        {specialty.appointments} agend.
+                        {specialty.appointments} Appoint.
                       </span>
                     </div>
                   </div>

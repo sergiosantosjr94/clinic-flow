@@ -51,10 +51,10 @@ const AppointmentsTableActions = ({
 }: AppointmentsTableActionsProps) => {
   const deleteAppointmentAction = useAction(deleteAppointment, {
     onSuccess: () => {
-      toast.success("Agendamento deletado com sucesso.");
+      toast.success("Appointment deleted successfully.");
     },
     onError: () => {
-      toast.error("Erro ao deletar agendamento.");
+      toast.error("Appointment deleted successfully.");
     },
   });
 
