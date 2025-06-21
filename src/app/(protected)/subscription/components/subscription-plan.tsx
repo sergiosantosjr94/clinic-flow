@@ -1,7 +1,10 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import { CheckCircle2, Loader2 } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 
+import { createStripeCheckout } from "@/actions/create-stripe-checkout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -11,10 +14,28 @@ interface SubscriptionPlanProps {
   className?: string;
 }
 
-export function SubscriptionPlan({
-  active = false,
-  className,
-}: SubscriptionPlanProps) {
+export function SubscriptionPlan({ active, className }: SubscriptionPlanProps) {
+  const createStripeCheckoutAction = useAction(createStripeCheckout, {
+    onSuccess: async ({ data }) => {
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+        throw new Error("Stripe publishable key not found");
+      }
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+      );
+      if (!stripe) {
+        throw new Error("Stripe not found");
+      }
+      if (!data?.sessionId) {
+        throw new Error("Session ID not found");
+      }
+
+      await stripe.redirectToCheckout({
+        sessionId: data?.sessionId,
+      });
+    },
+  });
+
   const features = [
     "Cadastro de até 3 médicos",
     "Agendamentos ilimitados",
@@ -23,6 +44,10 @@ export function SubscriptionPlan({
     "Confirmação manual",
     "Suporte via e-mail",
   ];
+
+  const handleSubscribeClick = async () => {
+    createStripeCheckoutAction.execute();
+  };
 
   return (
     <Card className={className}>
@@ -57,8 +82,19 @@ export function SubscriptionPlan({
         </div>
 
         <div className="mt-8">
-          <Button className="w-full" variant="outline" disabled={true}>
-            {active ? "Gerenciar assinatura" : "Fazer assinatura"}
+          <Button
+            onClick={active ? () => {} : handleSubscribeClick}
+            className="w-full"
+            variant="outline"
+            disabled={createStripeCheckoutAction.isExecuting}
+          >
+            {createStripeCheckoutAction.isExecuting ? (
+              <Loader2 className="m-4 mr-1 h-4 animate-spin" />
+            ) : active ? (
+              "Gerenciar assinatura"
+            ) : (
+              "Fazer assinatura"
+            )}
           </Button>
         </div>
       </CardContent>

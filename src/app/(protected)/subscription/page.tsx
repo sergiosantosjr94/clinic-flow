@@ -22,7 +22,7 @@ const SubscriptionPage = () => {
         {/* <PageActions></PageActions> */}
       </PageHeader>
       <PageContent>
-        <SubscriptionPlan className="w-[350px]" active={true} />
+        <SubscriptionPlan className="w-[350px]" active={false} />
       </PageContent>
     </PageContainer>
   );
