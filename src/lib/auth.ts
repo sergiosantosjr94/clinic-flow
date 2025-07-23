@@ -16,6 +16,23 @@ export const auth = betterAuth({
   trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL as string],
   user: {
     modelName: "usersTable",
+    additionalFields: {
+      stripeCustomerId: {
+        type: "string",
+        fieldName: "stripeCustomerId",
+        required: false,
+      },
+      stripeSubscriptionId: {
+        type: "string",
+        fieldName: "stripeSubscriptionId",
+        required: false,
+      },
+      plan: {
+        type: "string",
+        fieldName: "plan",
+        required: false,
+      },
+    },
   },
   session: {
     modelName: "sessionsTable",
@@ -39,12 +56,14 @@ export const auth = betterAuth({
         where: eq(usersToClinicsTable.userId, user.id),
         with: {
           clinic: true,
+          user: true,
         },
       });
       const clinic = clinics?.[0];
       return {
         user: {
           ...user,
+          plan: clinic?.user.plan,
           clinic: clinic?.clinicId
             ? {
                 id: clinic?.clinicId,
