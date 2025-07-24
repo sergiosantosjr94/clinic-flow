@@ -44,12 +44,12 @@ export function SubscriptionPlan({
   });
 
   const features = [
-    "Cadastro de até 3 médicos",
-    "Agendamentos ilimitados",
-    "Métricas básicas",
-    "Cadastro de pacientes",
-    "Confirmação manual",
-    "Suporte via e-mail",
+    "Register 3 doctors",
+    "Unlimited appointments",
+    "Basic Metrics",
+    "Patient Management",
+    "Manual confirmation",
+    "Email support",
   ];
 
   const handleSubscribeClick = async () => {
