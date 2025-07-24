@@ -4,7 +4,6 @@ import {
   CalendarDays,
   Gem,
   LayoutDashboard,
-  Settings,
   Stethoscope,
   Users,
 } from "lucide-react";
@@ -48,11 +47,6 @@ const items = [
     title: "Patients",
     url: "/patients",
     icon: Users,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
   },
 ];
 
